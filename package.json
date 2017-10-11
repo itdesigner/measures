@@ -1,0 +1,44 @@
+{
+    "name": "placester-measures",
+    "version": "0.0.2",
+    "description": "Performance and logging utilities",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "prepublish": "npm run build",
+        "build": "tsc",
+        "test": "make test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/itdesigner/measures.git"
+    },
+    "keywords": [
+        "POC",
+        "performance",
+        "API",
+        "logging"
+    ],
+    "author": "Jerry Shaughnessy <itdesigner@hotmail> (http://placester.com)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/itdesigner/measures/issues"
+    },
+    "homepage": "https://github.com/itdesigner/measures#readme",
+    "dependencies": {
+        "@types/node": "^8.0.33",
+        "events": "^1.1.1",
+        "moment": "^2.18.1",
+        "os": "^0.1.1"
+    },
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "intercept-stdout": "^0.1.2",
+        "istanbul": "^0.4.5",
+        "mocha": "^4.0.1",
+        "ts-node": "^3.3.0"
+    }
+}

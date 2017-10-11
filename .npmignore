@@ -1,0 +1,12 @@
+tsconfig.json
+Makefile
+*.js.map
+
+src/
+node_modules/
+docs/
+test/
+coverage/
+.vscode/
+
+
