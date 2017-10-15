@@ -1,4 +1,4 @@
-# placester-measures
+# measures
 A collection of measure and log methods. Includes separate decorators for:
 * logging synchronous methods and methods that return promises
 * timing synchronous methods and methods that return promises
@@ -8,7 +8,7 @@ A collection of measure and log methods. Includes separate decorators for:
 The measures work in conjunction with sinks (destinations where the measure or log results) are sent.
 
  ## Install
-    $ npm install --save placester-measures
+    $ npm install --save measures
 
 ## API
 ### The Core Measures
