@@ -124,8 +124,8 @@ The logged result takes the following format:
   results: '"bob likes clown"',
   tags: [] }
 
-### Wrap decorator
-* **@wrap()** => decorator for wrapping classes or class methods with you own custom code. You can also edit the parameters!
+### Inject decorator
+* **@inject()** => decorator that allows for wrapping methods with your own custom pre and post post functions.  This decorator allows you to modify arguments prior to execution, perform validation, and even perform audit operations automatically.
 
 With it you can easily make:
   * logger functions
@@ -133,36 +133,53 @@ With it you can easily make:
   * edit the output from a method
   * do something extra with the result (ie write to file)
   * skip calling the method
+  * perform validation prior to executing a function
+  * creating an audit of calls
   * do what you want...
 
-To use the wrap decorator, use must make a function that has 4 parameters:
-| Parameters|description|
-|*----------|*----------|
-|callback   |The actual method/class. REMEMBER TO INVOKE THIS METHOD AND RETURN THE VALUE|
-|args       |The arguments passed to the original method/class|
-|name       | The method name of the method/class that is invoked|
-|type       |The object type where the decorator is placed (class or function)|
 
-##### Using the wrap decorator
+To use the inject decorator, you must create a custom pre or post inject function, or both if you want.  The function definitions are similar and look like the folowing:
+
+**IPreInjectFunction**   (name: string, ...args: any[]) => any[];
+**IPostInjectFunction**  (name: string, args: any) => any;
+
+
+| function type        | parameter          | Description | 
+|:------------- |:-------------|:----|
+| *pre-inject*| name | this parameter is used to identify the source of the call (*default is the class.method name*)|
+| *pre-inject*| ...args| the original arguments that the function was given |
+|*pre-inject* | results | the new argument results that will actually be provided to the function. **NOTE:** the pre-inject must pass back parameters to be used by the function, even if it does nothing with them. |
+| *post-inject* | name | this parameter is used to identify the source of the call (*default is the class.method name*)|
+| *post-inject* | args | this represents the returned result from the actual function call |
+| *post-inject* | result | the results that will actually be returned from the function. **NOTE:** the post-inject must pass back results (modified or not), even if it does nothing with them. |
+
+
+##### Using the inject decorator
 ```typescript
-var marker = (callback, args, name, type) => {
-  console.log('Entering  ', type, name);
-  var result = callback();
-  console.log('Leaving: ', name);
-  return result;
+// this is the pre-inject function
+const pre: IPreInjectFunction = (name: string, ...args: any[]): any[] => {
+    const results: any[] = new Array();
+    // we are going to double the parameters before returning them - although this could be validation, or whatever
+    for (const arg of args) {
+        results.push(arg * 2);
+    }
+    return results;
+};
+// this is the post-inject function
+const post: IPostInjectFunction = (name: string, args: any): any => {
+    // lets upperCase any answers - although it could do anything
+    const results: any = JSON.stringify(args).toUpperCase();
+    return results;
 };
 
-@wrap(marker)
 class SuperClass {
     constructor(){
         //some business here....
-        console.log('hello from class');
-        //some business here....
     }
-    @wrap(marker)
+
+    // NOTE: it is not necessary to have both a pre- and post-inject function, you can also use only one or the other
+    @inject(pre, post)
     bar(a,b) {
-        //some business here....
-        console.log('hello from bar method');
         //some business here....
     }
 }
