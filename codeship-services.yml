@@ -1,0 +1,7 @@
+measures_node:
+  build:    
+    dockerfile_path: Dockerfile
+    encrypted_args_file: codeship.plinternal.env.encrypted
+  environment:
+    NODE_ENV: test
+  cached: true

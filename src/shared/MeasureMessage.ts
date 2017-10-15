@@ -2,63 +2,63 @@ import {MeasureType, Tag} from './types';
 
 /**
  * default measure message structure
- * 
+ *
  * @export
  * @type MeasureMessage
  */
-export type MeasureMessage = {
+export interface IMeasureMessage {
     /**
      * the type of measure
-     * 
+     *
      * @type {MeasureType}
      */
-    type:MeasureType;
+    type: MeasureType;
     /**
      * the date when this event occurred
-     * 
+     *
      * @type {Date}
      */
-    timestamp:Date;
+    timestamp: Date;
     /**
      * the name of measure
-     * 
+     *
      * @type {string}
      */
-    name:string;
+    name: string;
     /**
      * the value of the measure
-     * 
+     *
      * @type {*}
      */
-    value?:any;
+    value?: any;
     /**
      * correlation id
-     * 
+     *
      * @type {string}
      */
-    correlationId?:string;
+    correlationId?: string;
     /**
      * any tags associated with this measure
-     * 
+     *
      * @type {(Tag|Array<Tag>)}
      */
-    tags?:Tag|Array<Tag>;
+    tags?: Tag | Tag[];
     /**
      * unit of measure
-     * 
+     *
      * @type {string}
      */
-    uom?:string;
+    uom?: string;
     /**
      * duration of the event
-     * 
+     *
      * @type {*}
      */
-    duration?:any;
+    duration?: any;
     /**
      * the rate of the event
-     * 
+     *
      * @type {number}
      */
-    rate?:number;
+    rate?: number;
 }

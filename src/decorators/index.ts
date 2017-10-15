@@ -6,3 +6,4 @@ export * from './timer';
 export * from './timerpromise';
 export * from './measure';
 export * from './measurepromise';
+export * from './IInjectFunctions';

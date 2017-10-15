@@ -1,27 +1,25 @@
-import {MeasureOptions, MeasureType} from '../shared';
 import {IMeasure} from '../measures';
+import {MeasureType} from '../shared';
 import {instanceOfCounter, instanceOfMeter, instanceOfTimer} from './utilities';
-import * as moment from 'moment';
 
 /**
  * generic measure decorator for synchronous methods
- * 
+ *
  * @export
- * @param {IMeasure} [measure]
- * @returns 
+ * @param {IMeasure} [externalMeasure]
+ * @returns
  */
-export function measure(measure:IMeasure) {
-    return (target:Object, propertyKey:string, descriptor:TypedPropertyDescriptor<any>) => {
-        let name:string = (measure.name)? measure.name: [target.constructor.name, descriptor.value.name].join('.');
-        const originalMethod =descriptor.value;
-        descriptor.value = function(...args:any[]){
+export function measure(externalMeasure: IMeasure) {
+    return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) => {
+        const originalMethod = descriptor.value;
+        descriptor.value = function(...args: any[]){
             try {
-                triggerPreMeasure(measure);
+                triggerPreMeasure(externalMeasure);
                 const result = originalMethod.apply(this, args);
-                triggerPostMeasure(measure);
+                triggerPostMeasure(externalMeasure);
                 return result;
-            } catch(e) {
-                triggerPostMeasure(measure);
+            } catch (e) {
+                triggerPostMeasure(externalMeasure);
                 throw e;
             }
         };
@@ -29,24 +27,28 @@ export function measure(measure:IMeasure) {
     };
 }
 
-function triggerPreMeasure(measure:IMeasure):void {
-    switch(measure.type) {
+function triggerPreMeasure(externalMeasure: IMeasure): void {
+    switch (externalMeasure.type) {
         case MeasureType.Counter:
-            if(instanceOfCounter(measure)) { measure.increment();}
+            /* istanbul ignore else */
+            if (instanceOfCounter(externalMeasure)) { externalMeasure.increment(); }
             break;
         case MeasureType.Meter:
-            if(instanceOfMeter(measure)) { measure.mark();}
+            /* istanbul ignore else */
+            if (instanceOfMeter(externalMeasure)) { externalMeasure.mark(); }
             break;
         case MeasureType.Timer:
-            if(instanceOfTimer(measure)) { measure.start();}
+            /* istanbul ignore else */
+            if (instanceOfTimer(externalMeasure)) { externalMeasure.start(); }
             break;
         default:
-            measure.write();
+            externalMeasure.write();
             break;
     }
 }
-function triggerPostMeasure(measure:IMeasure):void {
-    if(measure.type === MeasureType.Timer) {
-         if(instanceOfTimer(measure)) { measure.stop();}
+function triggerPostMeasure(externalMeasure: IMeasure): void {
+    if (externalMeasure.type === MeasureType.Timer) {
+        /* istanbul ignore else */
+        if (instanceOfTimer(externalMeasure)) { externalMeasure.stop(); }
     }
 }

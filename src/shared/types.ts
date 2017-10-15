@@ -1,43 +1,43 @@
 
 /**
  * Measure Type
- * 
+ *
  * @export
  * @enum {number}
  */
 export enum MeasureType {
     /**
      * Unknown measure type
-    */
+     */
     Unknown,
     /**
      * A Counter based measure
-    */
+     */
     Counter,
     /**
      * A Gauge based measure
-    */
+     */
     Gauge,
     /**
      * A Meter based measure
-    */
+     */
     Meter,
     /**
      * A Timer based measure
-    */
+     */
     Timer,
     /**
      * A HealthCheck measure
-    */
+     */
     Health,
     /**
      * A Histogram-based timer measure
-    */
-    HistogramTimer
+     */
+    HistogramTimer,
 }
 /**
  * Logging Level
- * 
+ *
  * @export
  * @enum {number}
  */
@@ -65,12 +65,12 @@ export enum LogLevel {
     /**
      * Critical error (application or process major failure)
      */
-    CRITICAL
+    CRITICAL,
 }
 
 /**
  * a tag that can be represented by a key value pair
- * 
+ *
  * @export
  * @interface IKeyValueTag
  */
@@ -78,4 +78,4 @@ export interface IKeyValueTag {
     [index: string]: string | number | boolean;
 }
 
-export type Tag = string | IKeyValueTag
+export type Tag = string | IKeyValueTag;

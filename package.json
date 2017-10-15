@@ -1,44 +1,113 @@
 {
-    "name": "placester-measures",
-    "version": "0.0.2",
-    "description": "Performance and logging utilities",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "directories": {
-        "test": "test"
-    },
-    "scripts": {
-        "prepublish": "npm run build",
-        "build": "tsc",
-        "test": "make test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/itdesigner/measures.git"
-    },
-    "keywords": [
-        "POC",
-        "performance",
-        "API",
-        "logging"
-    ],
-    "author": "Jerry Shaughnessy <itdesigner@hotmail> (http://placester.com)",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/itdesigner/measures/issues"
-    },
-    "homepage": "https://github.com/itdesigner/measures#readme",
-    "dependencies": {
-        "@types/node": "^8.0.33",
-        "events": "^1.1.1",
-        "moment": "^2.18.1",
-        "os": "^0.1.1"
-    },
-    "devDependencies": {
-        "chai": "^4.1.2",
-        "intercept-stdout": "^0.1.2",
-        "istanbul": "^0.4.5",
-        "mocha": "^4.0.1",
-        "ts-node": "^3.3.0"
-    }
+	"name": "placester-measures",
+	"version": "0.0.2",
+	"description": "Performance and logging utilities",
+	"keywords": [
+		"POC",
+		"performance",
+		"API",
+		"logging"
+	],
+	"homepage": "https://github.com/itdesigner/measures#readme",
+	"bugs": {
+		"url": "https://github.com/itdesigner/measures/issues"
+	},
+	"license": "ISC",
+	"author": "Jerry Shaughnessy <itdesigner@hotmail> (http://placester.com)",
+	"files": [
+		"es6/src",
+		"dist/src",
+		"dts/src",
+		"docs"
+	],
+	"main": "dist/src/index.js",
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itdesigner/measures.git"
+	},
+  "scripts": {
+		"posttest": "nyc check-coverage",
+		"publish-please": "publish-please",
+		"prepublish": "publish-please guard",
+		"prebuild": "npm run clean",
+		"test": "nyc mocha",
+		"tslint": "tslint --project tsconfig.json",
+		"tslintfix": "tslint --fix --project tsconfig.json",
+		"clean": "rm -rf dist && rm -rf dts && rm -rf es6",
+		"package": "npm run clean && npm run build",
+		"build": "npm run buildES2015 && npm run buildES5",
+		"buildES2015": "tsc --project . --sourceMap false --declaration --declarationDir dts --outDir es6",
+		"buildES5": "tsc --project . --target ES5 --lib ES5,ES2015.Promise,ES6 --sourceMap false --outDir dist"
+	},
+	"dependencies": {
+		"events": "^1.1.1",
+		"moment": "^2.18.1",
+		"os": "^0.1.1"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.0.4",
+		"@types/mocha": "^2.2.43",
+		"@types/moment": "^2.13.0",
+		"@types/node": "^8.0.33",
+		"chai": "^4.1.2",
+		"intercept-stdout": "^0.1.2",
+		"istanbul": "^0.4.5",
+		"mocha": "^4.0.1",
+		"nyc": "^11.2.1",
+		"publish-please": "^2.3.1",
+		"ts-node": "^3.3.0",
+		"tslint": "^5.7.0",
+		"tslint-config-standard": "^6.0.1",
+		"typescript": "^2.5.3"
+	},
+	"publishConfig": {
+		"registry": "https://placester.jfrog.io/placester/api/npm/npm-local"
+	},
+	"jsnext:main": "es6/src/index.js",
+	"types": "dts/src/index.d.ts",
+	"nyc": {
+		"extension": [
+			".ts",
+			".tsx"
+		],
+		"exclude": [
+			"**/*.d.ts"
+		],
+		"reporter": [
+			"html",
+			"text-summary",
+			"lcov"
+		],
+		"watermarks": {
+			"lines": [
+				80,
+				90
+			],
+			"functions": [
+				80,
+				90
+			],
+			"branches": [
+				80,
+				90
+			],
+			"statements": [
+				80,
+				90
+			]
+		},
+		"lines": 95,
+		"statements": 95,
+		"functions": 95,
+		"branches": 89,
+		"include": [
+			"src/**/*.ts",
+			"src/**/*.tsx"
+		]
+	},
+	"sourceMap": true,
+	"instrument": true
 }

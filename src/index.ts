@@ -1,30 +1,30 @@
-import * as Logging from './logging';
-import * as Types from './shared';
-import * as Measures from './measures';
-import * as Sinks from './sinks';
 import {APM, defaultAPM, defaultConsoleAPM, defaultDataDogAPM} from './APM';
 import {
-    log,
-    logCritical,
-    logError,
-    logWarning,
-    logInfo,
-    logDebug,
-    logVerbose,
-    logpromise,
-    logpromiseCritical,
-    logpromiseError,
-    logpromiseWarning,
-    logpromiseInfo,
-    logpromiseDebug,
-    logpromiseVerbose,
-    timer,
-    timerpromise,
     inject,
     injectpromise,
+    log,
+    logCritical,
+    logDebug,
+    logError,
+    logInfo,
+    logpromise,
+    logpromiseCritical,
+    logpromiseDebug,
+    logpromiseError,
+    logpromiseInfo,
+    logpromiseVerbose,
+    logpromiseWarning,
+    logVerbose,
+    logWarning,
     measure,
-    measurepromise
+    measurepromise,
+    timer,
+    timerpromise,
 } from './decorators';
+import * as Logging from './logging';
+import * as Measures from './measures';
+import * as Types from './shared';
+import * as Sinks from './sinks';
 
 
 export {
@@ -55,5 +55,5 @@ export {
     inject,
     injectpromise,
     measure,
-    measurepromise
-}
+    measurepromise,
+};
